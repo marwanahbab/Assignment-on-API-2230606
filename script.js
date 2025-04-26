@@ -64,4 +64,33 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function fetchCountryDetails(code) {
+        showLoading(true);
+        fetch(`https://restcountries.com/v3.1/alpha/${code}`)
+            .then(res => res.json())
+            .then(function (data) {
+                var country = data[0];
+                if (!country.capitalInfo || !country.capitalInfo.latlng) {
+                    displayDetails(country, null);
+                    return;
+                }
+                var [lat, lon] = country.capitalInfo.latlng;
+                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(function (weatherData) {
+                        displayDetails(country, weatherData ? weatherData.current_weather : null);
+                    })
+                    .catch(function () {
+                        displayDetails(country, null);
+                    });
+            })
+            .catch(function (err) {
+                console.error(err);
+                showError('Failed to load country details.');
+            })
+            .finally(function () {
+                showLoading(false);
+            });
+    }
+
 })
