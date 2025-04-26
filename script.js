@@ -93,4 +93,65 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    function displayDetails(c, w) {
+        var details = `
+            <div class="modal-row">
+                <div class="modal-col">
+                    <img src="${c.flags.svg}" class="modal-flag" alt="${c.name.common}">
+                    <h3>${c.name.common}</h3>
+                    <p><strong>Official Name:</strong> ${c.name.official}</p>
+                    <div><span class="badge badge-primary">${c.region}</span>${c.subregion ? `<span class="badge badge-secondary">${c.subregion}</span>` : ''}</div>
+                    <p><strong>Capital:</strong> ${c.capital ? c.capital[0] : 'N/A'}</p>
+                    <p><strong>Population:</strong> ${formatNumber(c.population)}</p>
+                    <p><strong>Area:</strong> ${formatNumber(c.area)} km²</p>
+                </div>
+                <div class="modal-col">
+                    <h4 class="country-info-title"><i class="fas fa-info-circle"></i> Info</h4>
+                    <ul class="info-list">
+                        <li><strong>Currencies:</strong> ${c.currencies ? Object.values(c.currencies).map(x => `${x.name} (${x.symbol})`).join(', ') : 'N/A'}</li>
+                        <li><strong>Languages:</strong> ${c.languages ? Object.values(c.languages).join(', ') : 'N/A'}</li>
+                        <li><strong>Borders:</strong> ${c.borders ? c.borders.join(', ') : 'None'}</li>
+                        <li><strong>Continent:</strong> ${c.continents.join(', ')}</li>
+                        <li><strong>UN Member:</strong> ${c.unMember ? 'Yes' : 'No'}</li>
+                        <li><strong>Timezones:</strong> ${c.timezones.map(tz => tz.replace('UTC', 'GMT')).join(', ')}</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        if (w) {
+            details += `
+                <div class="modal-row">
+                    <div class="modal-col">
+                        <h4 class="country-info-title"><i class="fas fa-cloud-sun"></i> Weather</h4>
+                        <div class="weather-container">
+                            <div class="weather-header">
+                                <div>
+                                    <span class="weather-temp">${Math.round(w.temperature)}°C</span>
+                                    <p class="weather-desc">Windspeed: ${w.windspeed} km/h</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        if (c.latlng) {
+            var [lat, lon] = c.latlng;
+            details += `
+                <div class="modal-row">
+                    <div class="modal-col" style="flex:100%;">
+                        <h4 class="country-info-title"><i class="fas fa-map-marker-alt"></i> Location</h4>
+                        <div class="map-container">
+                            <iframe width="100%" height="100%" src="https://www.openstreetmap.org/export/embed.html?bbox=${lon-10},${lat-10},${lon+10},${lat+10}&layer=mapnik&marker=${lat},${lon}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        countryDetailsContainer.innerHTML = details;
+        document.getElementById('countryModalLabel').textContent = c.name.common;
+        openModal();
+    }
+
+
 })
