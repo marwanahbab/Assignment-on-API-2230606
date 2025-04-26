@@ -38,4 +38,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function displayCountries(countries) {
+        countriesGrid.innerHTML = '';
+        if (!countries.length) return showNoResults();
+        countries.forEach(function (c) {
+            var card = document.createElement('div');
+            card.className = 'country-card';
+            card.innerHTML = `
+                <img src="${c.flags.svg}" class="country-flag" alt="${c.name.common}">
+                <div class="card-content">
+                    <h3 class="card-title">${c.name.common}</h3>
+                    <p class="card-text">
+                        <i class="fas fa-city"></i> Capital: ${c.capital ? c.capital[0] : 'N/A'}<br>
+                        <i class="fas fa-users"></i> Population: ${formatNumber(c.population)}
+                    </p>
+                    <button class="more-details-btn" data-code="${c.cca2}">
+                        <i class="fas fa-info-circle"></i> More Details
+                    </button>
+                </div>
+            `;
+            card.querySelector('.more-details-btn').addEventListener('click', function () {
+                fetchCountryDetails(this.dataset.code);
+            });
+            countriesGrid.appendChild(card);
+        });
+    }
+
 })
