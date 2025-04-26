@@ -29,4 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .finally(() => showLoading(false));
     }
+    
+    function searchCountries() {
+        var query = searchInput.value.trim();
+        if (!query) return (searchFeedback.textContent = 'Please enter a country name');
+        fetchCountries(`https://restcountries.com/v3.1/name/${query}`, function (countries) {
+            displayCountries(countries);
+        });
+    }
+
 })
