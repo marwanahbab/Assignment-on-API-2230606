@@ -153,5 +153,37 @@ document.addEventListener('DOMContentLoaded', function () {
         openModal();
     }
 
+    function shuffleArray(arr) {
+        return arr.slice().sort(() => Math.random() - 0.5);
+    }
 
-})
+    function showLoading(show) {
+        loadingSpinner.classList.toggle('hidden', !show);
+    }
+
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function showNoResults() {
+        countriesGrid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-search"></i>
+                <h3>No Results Found</h3>
+                <p>No countries match your search.</p>
+            </div>
+        `;
+    }
+
+    function showError(msg) {
+        searchFeedback.textContent = msg;
+    }
+
+    function closeModal() {
+        modalOverlay.classList.add('hidden');
+    }
+
+    function openModal() {
+        modalOverlay.classList.remove('hidden');
+    }
+});
