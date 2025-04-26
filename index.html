@@ -19,6 +19,37 @@
         </div>
     </nav>
 
+    <main class="main-container">
+        <section class="hero-section">
+            <h1>Explore Countries Around the World</h1>
+            <p class="lead">Search for any country to discover information about its geography, demographics, and current weather conditions.</p>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="country-search" placeholder="Search for a country..." aria-label="Search for a country">
+                    <button type="button" id="search-button">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div id="search-feedback" class="error-message"></div>
+            </div>
+        </section>
+
+        
+        <div id="loading-spinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p>Fetching country data...</p>
+        </div>
+
+      
+        <section id="results-container">
+            <div id="countries-grid" class="countries-grid">
+
+            </div>
+        </section>
+    </main>
+
+
 
     
     <footer class="footer">
